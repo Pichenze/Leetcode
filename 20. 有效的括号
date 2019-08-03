@@ -1,0 +1,18 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        stack = ''
+        patterndict = {'(':')','[':']','{':'}'}  #左括号为字典的keys,右括号为字典中keys对应的values
+        for i in s:  
+            if i in patterndict.keys():
+                stack += i
+            elif i in patterndict.values():
+                if stack == '': #在栈中没有左括号的情况下啊出现了右括号，错误
+                    return False
+                if patterndict[stack[-1]] == i:  #stack栈顶的括号匹配成功
+                    stack = stack[:-1]
+                else: #栈顶的左括号与最近的右括号不匹配，说明匹配失败
+                    return False
+        if stack == '': #括号完全匹配完
+            return True
+        else:  #有多余的左括号
+            return False
