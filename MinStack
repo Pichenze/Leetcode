@@ -1,0 +1,39 @@
+class MinStack:
+
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.topp = 0  #区分top函数
+        self.base = 0
+        self.content = []
+        self.min = 1e50
+
+    def push(self, x: int) -> None:
+        self.content.append(x)
+        self.topp += 1
+        if x < self.min:
+            self.min = x
+
+    def pop(self) -> None:
+        if self.topp <= 0:
+            print("Eroor stack can't pop")
+            return
+            
+        if self.content[self.topp-1] == self.min:
+            self.min = 1e50
+            for i in range(self.topp-1):
+                if self.content[i] < self.min:
+                    self.min = self.content[i]
+        self.content.pop()
+        self.topp -= 1
+        
+
+    def top(self) -> int:
+        if self.topp > 0:
+            return self.content[self.topp-1]
+        else:
+            return None
+
+    def getMin(self) -> int:
+        return self.min
