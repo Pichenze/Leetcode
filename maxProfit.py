@@ -16,3 +16,15 @@ class Solution:
                 lowprice = prices[i]
                 sumprofit += profit                
         return sumprofit
+
+    
+    
+    
+    #更简单的方法：
+    class Solution:
+    def maxProfit(self, prices) -> int:
+        sumprofit = 0
+        for i in range(1,len(prices)):
+            if prices[i] > prices[i-1]: #把所有增量累加起来
+                sumprofit += prices[i] - prices[i-1]
+        return sumprofit
