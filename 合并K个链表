@@ -1,0 +1,30 @@
+题目：合并 k 个排序链表，返回合并后的排序链表。请分析和描述算法的复杂度。
+
+示例:
+输入:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+输出: 1->1->2->3->4->4->5->6
+
+
+思路：采用分治的思想，对相邻的链表进行合并，然后再对合并后的链表再两两合并，直到只剩一个链表
+对K个链表：
+  0 1 2 3 4 5 6 7 8 ....k          (interval=1)
+合并后（合并的结果放在两个合并前链表的第一个链表）得到的链表索引：
+  0  2  4  6  8 .... (k+1)/2       (interval=2)
+再次合并后，合并的链表存储在链表索引：
+  0  4  8 ....                      (interval=4)
+
+因此，所有链表每经历一次合并后，两个要合并的链表的间距interval会乘2，如最开始interval = 1,第二次的interval = 2,第三次interval=4,逐次下去，第i次interval=2^(k-1)
+分治算法核心：  （interval的动态变化）
+amount = len(lists)
+if amount == 0:
+  return None
+interval = 1  #要合并的两个链表在列表中的索引间距
+while interval<amount: #合并链表的结束条件
+  for i in range(0,amount-interval,2*interval): # 合并 lists[i]和lists[i+interval]
+    lists[i] = self.merge2Lists(lists[i],lists[i+interval])
+  interval *= 2 #一次合并后，interval*2
